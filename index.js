@@ -44,6 +44,30 @@ app.get("/phrases", function(req, res){
 
 });
 
+// posts new phrases
+app.post("/phrases", function (req, res){
+  var newPhrase = req.body;
+
+  db.Phrase.create(newPhrase, function(err, phrases){
+        if (err) {  
+        console.log(err);
+        }
+        res.send(newPhrase);
+    });
+
+});
+
+//deletes phrases
+app.delete("/phrases/:id", function (req, res){
+    var removedPhrase = req.params.id;
+    console.log(removedPhrase);
+  db.Phrase.remove({_id: removedPhrase}, function (err, phrases){
+        if (err) {  
+        console.log(err);
+        }
+        res.send(removedPhrase);
+    });
+});
 
 //Single route
 // app.get("/", function (req, res) {

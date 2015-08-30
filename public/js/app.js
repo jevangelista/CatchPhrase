@@ -6,16 +6,16 @@ $(function() {
 // function definitions
 
 function pageLoad() {
-  // load foods
+  // load phrases
   getPhrases();
   // set event listeners
   $("#new-phrase-form").on("submit", function(e){
     // prevent form submission
     e.preventDefault();
-    // post to food#create
+    // post to phrase#create
     $.post("/phrases", $(this).serialize())
       .done(function(res){
-        // append new food to the page
+        // append new phrase to the page
         getPhrases();
         $("#new-phrase-form")[0].reset();
       });
@@ -25,14 +25,14 @@ function pageLoad() {
 function getPhrases() {
   $.get("/phrases", function(res){
     var phrases = res.reverse();
-    // grab foods template
+    // grab phrases template
     renderPhrases(phrases)
   });
 }
 
 function renderPhrases(phrases) {
   template = _.template($("#phrases-template").html());
-  // input foods into template and append to parent
+  // input phrases into template and append to parent
   phraseItems = phrases.map(function(phrase) {
     return template(phrase);
   });
@@ -48,7 +48,7 @@ function deletePhrase(context) {
     url: '/phrases/' + phraseId,
     type: 'DELETE',
     success: function(res) {
-      // once successfull, re-render all foods
+      // once successfull, re-render all phrases
       getPhrases();
     }
   });
