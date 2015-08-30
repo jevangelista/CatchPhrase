@@ -6,11 +6,14 @@ var express = require("express"),
 	_ = require("underscore"),
 	views = path.join(process.cwd(), "views/");
 
+//Plugging database
+var db = require('./models');
+
 // SAMPLE DATA 
-var people = [
+/*var people = [
 	{name: "Jamie", type:"girl"},
 	{name: "Beau", type:"boy"}
-];
+];*/
 
 //CONFIG//
 //serve js & css files
@@ -28,17 +31,31 @@ app.get("/", function (req, res){
   res.sendFile(path.join(views + 'index.html'));
 });
 
-//Single route
-app.get("/", function (req, res) {
-	res.send("Hello there, Jamie!");
+//phrase index route
+app.get("/phrases", function(req, res){
+
+    db.Phrase.find({}, function(err, phrases){
+        if (err) {
+            console.log("BAD THING!");
+            return res.sendStatus(400);
+        }
+        res.send(phrases);
+    });
+
 });
+
+
+//Single route
+// app.get("/", function (req, res) {
+//	res.send("Hello there, Jamie!");
+//});
 
 
 
 //Testing data route
-app.get("/people", function (req, res) {
-	res.send(people);
-});
+//app.get("/people", function (req, res) {
+//	res.send(people);
+//});
 
 
 //SPECIFYING PORT
